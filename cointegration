@@ -1,0 +1,18 @@
+import pandas as pd
+from statsmodels.tsa.vector_ar.vecm import coint_johansen
+
+path = '/content/FDI_DataSet_Modified.csv'
+data = pd.read_csv(file_path)
+
+selected_columns = ['FDI', 'GDP', 'exchange rate', 'internal debt', 'govt debt']
+selected_columns = ['FDI', 'GDP', 'govt debt']
+data_clean = data[selected_columns].dropna()
+
+
+johansen_test = coint_johansen(data_clean, det_order=0, k_ar_diff=1)
+
+print("Cointegration Test Results:")
+print("Trace Statistic:", johansen_test.lr1)
+print("Critical Values (90%, 95%, 99%):", johansen_test.cvt)
+print("Maximum Eigenvalue Statistic:", johansen_test.lr2)
+print("Critical Values (90%, 95%, 99%):", johansen_test.cvm)
